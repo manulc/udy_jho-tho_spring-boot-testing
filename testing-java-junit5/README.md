@@ -1,0 +1,1 @@
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/manulc50/testing-java-junit5/tree/main.svg?style=svg&circle-token=0cb17b7ff2434367ac7708504b123457512acc57)](https://dl.circleci.com/status-badge/redirect/gh/manulc50/testing-java-junit5/tree/main)

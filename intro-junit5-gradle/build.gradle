@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+}
+
+/* Nota: A diferencia de Maven, Gradle por defecto no distingue entre pruebas unitarias y pruebas de integración, es
+   decir, su etapa "test" ejecuta todas las pruebas que haya independientemente de si son unitarias o de integración.
+   Es posible configurar Gradle(en este archivo) para que ejecute las pruebas unitarias y las de integración por
+   separado. */
+
+/* Nota: Por defecto, Gradle genera de forma automática reportes en formato XML(directorio "/build/test-results") y
+   HTML(directorio "/build/reports") de los resultados de las pruebas. */
+
+group 'com.mlorenzo'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 11
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.3.1'
+}
+
+dependencies {
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+// Para ejecutar los tests usando la plataforma JUnit5(Sería equivalente al plugin Surefire de Maven)
+test {
+    useJUnitPlatform()
+    // Por defecto Gradle no muestra ninguna información por consola acerca de los resultados de las pruebas. Por esta
+    // razón, añadimos estas configuraciones para que muestre la información de las pruebas relativas a los eventos
+    // "passed", "skipped" y "failed",y, además, muestre aquello que se emite por "System.out"
+    testLogging.showStandardStreams = true
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}

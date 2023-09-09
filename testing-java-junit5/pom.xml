@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.mlorenzo</groupId>
+    <artifactId>testing-java-junit5</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>testing-java-junit5</name>
+    <description>Testing Java with JUnit 5</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <junit-platform.version>5.3.1</junit-platform.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit-platform.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-platform.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- JUnit Parameterized Tests -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit-platform.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Librería alternativa para realizar afirmaciones en los tests -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.11.1</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Librería alternativa para realizar afirmaciones en los tests -->
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+            </plugin>
+            <!-- Esta versión "2.22.0" o superior es la que es compatible con JUnit5 -->
+            <!-- Este plugin se encarga de ejecutar las pruebas unitarias y se dispara siempre que se ejecuta
+                 la etapa "test" de Maven. Por defecto, este plugin ejecuta las pruebas de aquellas clases cuyos
+                 nombres siguen alguno de estos patrones; "**/Test*.java", "**/*Test.java", "**/*Tests.java" o
+                 "**/*TestCase.java". También, por defecto, genera reportes en formato txt y XML con los resultados
+                 de las pruebas en el directorio "surefire-reports" dentro del directorio "target" -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.0</version>
+                <configuration>
+                    <!-- Si los tests utilizan tags, podemos filtrar la ejecución de los tests mediante esos tags -->
+                    <!-- En este caso, solo ejecutamos los tests con un determinado tag -->
+                    <!--<groups>repeated</groups> -->
+                    <!-- En este caso, ejecutamos todos los tests excpecto aquellos con tag "controller" -->
+                    <!--<excludedGroups>controller</excludedGroups>-->
+                </configuration>
+            </plugin>
+            <!-- Esta versión "2.22.0" o superior es la que es compatible con JUnit5 -->
+            <!-- Este plugin se encarga de ejecutar las pruebas de intergración. Por defecto, detecta y ejecuta las
+                 pruebas de integración de aquellas clases cuyos nombres siguen alguno de estos patrones; "**/IT*.java",
+                 "**/*IT.java" o "**/*ITCase.java". También, por defecto, genera reportes en formato txt y XML con los
+                 resultados de las pruebas en el directorio "failsafe-reports" dentro del directorio "target" -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.22.0</version>
+                <!-- Indica a Maven que ejecute este plugin en las etapas "integration-test" y "verify" -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Actualizamos la versión por defecto de este plugin para que sea compatible con la versión del
+                 plugin "Surefire". Este plugin se dispara cuando se ejecuta la etapa "site" de Maven y se encarga de
+                 generar un sitio web con información sobre el proyecto(también los reportes de las pruebas unitarias
+                 si se utiliza el plugin "maven-surefire-report-plugin" - Ver más abajo) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.7.1</version>
+            </plugin>
+        </plugins>
+    </build>
+    <reporting>
+        <plugins>
+            <!-- Este plugin parsea los archivos XML de los reportes generados por el plugin "Surefire y crea una
+                 interfaz web con los resultados de las pruebas que pueden verse en el sitio web generado en la
+                 etapa "site" de Maven -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.22.0</version>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>
